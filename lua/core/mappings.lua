@@ -31,6 +31,10 @@ M.general = {
     ["q"] = { "<cmd> q <CR>", "Quit" },
     ["qq"] = { "<cmd> qa! <CR>", "Force quit" },
 
+    --delete
+    ["dd"] = { '"_dd', "delete text without copy" },
+
+
     -- Copy all
     ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
 
@@ -83,6 +87,7 @@ M.general = {
     -- Don't copy the replaced text after pasting in visual mode
     -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
     ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Dont copy replaced text", opts = { silent = true } },
+    ["d"] = { '"_d',"delete and not copy" },
   },
 }
 
