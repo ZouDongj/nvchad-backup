@@ -130,6 +130,19 @@ local default_plugins = {
     end,
   },
 
+  {
+      "kdheepak/lazygit.nvim",
+      cmd = { "LazyGitCurrentFile", "LazyGitFilterCurrentFile" },
+      -- optional for floating window border decoration
+      dependencies = {
+          "nvim-lua/plenary.nvim",
+      },
+      init = function()
+        require("core.utils").lazy_load("lazygit.nvim")
+        require("core.utils").load_mappings("lazygit")
+      end,
+  },
+
   -- lsp stuff
   {
     "williamboman/mason.nvim",

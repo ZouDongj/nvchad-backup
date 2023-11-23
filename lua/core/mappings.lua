@@ -291,6 +291,16 @@ M.symbols_outline = {
   },
 }
 
+M.lazygit = {
+  plugin = true,
+
+  n = {
+    -- toggle
+    ["<A-g>"] = { "<cmd> LazyGitCurrentFile <CR>", "toggle git" },
+    ["<A-f>"] = { "<cmd> LazyGitFilterCurrentFile <CR>", "toggle git current file" },
+  },
+}
+
 M.telescope = {
   plugin = true,
 
