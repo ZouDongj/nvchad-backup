@@ -19,3 +19,11 @@ end
 dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
 require "plugins"
+
+vim.opt.termguicolors = true
+vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+  callback = function ()
+    vim.fn.execute("silent! write")
+    vim.notify("Autosaved!", vim.log.levels.INFO, {title = "Info"})
+  end,
+})

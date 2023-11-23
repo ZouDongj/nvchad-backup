@@ -143,6 +143,66 @@ local default_plugins = {
       end,
   },
 
+  {
+    "rcarriga/nvim-notify",
+    lazy = true,
+    event = "VeryLazy",
+    config = function ()
+      local notify = require("notify")
+      notify.setup({
+        -- "fade", "slide", "fade_in_slide_out", "static"
+        stages = "fade",
+        on_open = nil,
+        on_close = nil,
+        timeout = 2000,
+        fps = 60,
+        render = "wrapped-compact",
+        background_colour = "Normal",
+        max_width = math.floor(vim.api.nvim_win_get_width(0) / 2),
+        max_height = math.floor(vim.api.nvim_win_get_height(0) / 4),
+        -- minimus_width = 50,
+        -- ERROR > WARN > INFO > DEBUG > TRACE
+        level = "TRACE",
+      })
+
+      vim.notify = notify
+    end,
+  },
+
+  {
+    "folke/noice.nvim",
+    lazy = true,
+    event = "user fileopened",
+    dependencies = { "rcarriga/nvim-notify", "MunifTanjim/nui.nvim" },
+    config = function ()
+      require("noice").setup({
+        lsp = {
+          progress = {
+            enabled = false,
+          },
+        },
+        presets = {
+          bottom_search = false, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = true, -- add a border to hover docs and signature help
+        },
+        messages = {
+          enabled = true,
+          view = "notify",
+          view_error = "notify",
+          view_warn = "notify",
+          view_history = "messages",
+          view_search = "virtualtext",
+        },
+        health = {
+          checker = false,
+        },
+      })
+    end,
+  },
+
   -- lsp stuff
   {
     "williamboman/mason.nvim",
