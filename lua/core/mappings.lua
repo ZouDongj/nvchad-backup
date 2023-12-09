@@ -492,6 +492,13 @@ M.gitsigns = {
       "Blame line",
     },
 
+    ["<leader>tb"] = {
+      function()
+        package.loaded.gitsigns.toggle_current_line_blame()
+      end,
+      "Toggle blame current line",
+    },
+
     ["<leader>td"] = {
       function()
         require("gitsigns").toggle_deleted()
