@@ -19,6 +19,6 @@ null_ls.setup {
   debug = true,
   sources = sources,
   on_init = function(new_client, _)
-      new_client.offset_encoding = 'utf-8'
+      new_client.offset_encoding = 'utf-16'
   end,
 }
