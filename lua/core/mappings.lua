@@ -270,6 +270,14 @@ M.lspconfig = {
   },
 }
 
+M.lspsaga = {
+  plugin = true,
+
+  n = {
+    ["<A-l>"] = { "<cmd> Lspsaga incoming_calls <CR>", "Toggle incoming calls" },
+  }
+}
+
 M.nvimtree = {
   plugin = true,
 
