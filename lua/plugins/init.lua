@@ -256,26 +256,33 @@ local default_plugins = {
         { 'mm', mode = { 'n', 'x' }, '<Cmd>Translate<CR>', desc = '󰊿 Translate' },
         { 'mk', mode = { 'n', 'x' }, '<Cmd>TransPlay<CR>', desc = ' Auto Play' },
         -- 目前这个功能的视窗还没有做好，可以在配置里将view.i改成hover
-        { 'mi', '<Cmd>TranslateInput<CR>', desc = ' Translate From Input' },
+        { 'mi', '<Cmd>TranslateInput<CR>', desc = '󰔮 Translate From Input' },
     },
     dependencies = { 'kkharji/sqlite.lua', },
     opts = {
       -- your configuration there
       frontend = {
-      ---@class TransFrontendOpts
-      ---@field keymaps table<string, string>
         default = {
           title     = vim.fn.has 'nvim-0.9' == 1 and {
-                  { ' 󰊿 Trans', 'TransTitle' },
-              } or nil, -- need nvim-0.9+
-          animation = {
-              close = 'fold',
-              interval = 12,
-          },
+                    { '',       'TransTitleRound' },
+                    { '󰊿 Trans', 'TransTitle' },
+                    { '',       'TransTitleRound' },
+                } or nil,
         },
+      ---@class TransFrontendOpts
+      ---@field keymaps table<string, string>
         hover = {
+          keymaps = {
+            pageup       = '[[',
+            pagedown     = ']]',
+            pin          = '<leader>[',
+            close        = '<leader>]',
+            -- play         = '_', -- Deprecated
+          },
           icon = {
-            notfound    = '❔ ', --❔ | ❓ | ❗ | ❕|
+            -- or use emoji
+            star        = ' ', -- ⭐ | ✴ | ✳ | ✲ | ✱ | ✰ | ★ | ☆ | 🌟 | 🌠 | 🌙 | 🌛 | 🌜 | 🌟 | 🌠 | 🌌 | 🌙 |
+            notfound    = ' ', --❔ | ❓ | ❗ | ❕|
           },
         },
       },
