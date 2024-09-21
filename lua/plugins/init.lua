@@ -179,4 +179,12 @@ return {
       })
     end,
   },
+
+  -- custom config
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require "configs.lspconfig"
+    end,
+  },
 }
