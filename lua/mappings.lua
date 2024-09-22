@@ -14,6 +14,7 @@ map("n", "ww", "<cmd> wq <CR>", { desc = "Save file" })
 
 -- edit
 map("n", "dd", '"_dd', { desc = "delete text without copy" })
+map("n", "d", '"_d', { desc = "delete and not copy" })
 map("i", "jk", "<ESC>")
 
 -- move
@@ -41,4 +42,3 @@ map("n", "<leader>rl", "<cmd>lua require('persistence').load({ last = true })<CR
 
 -- hop
 map("n", "<leader>h", "<cmd> HopWord <CR>", {desc = "Hop word"})
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
