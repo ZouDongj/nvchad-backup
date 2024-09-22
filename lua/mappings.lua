@@ -29,7 +29,7 @@ map("v", "<", "<gv", { desc = "Indent line left" })
 map("v", ">", ">gv", { desc = "Indent line right" })
 
 map("n", "<A-n>", "<cmd> NvimTreeToggle <CR>", { desc = "Toggle nvimtree" })
-map("n", "<A-m>", "<cmd> SymbolsOutline <CR>", { desc = "Toggle symbolsOutline" })
+map("n", "<A-m>", "<cmd> Outline <CR>", { desc = "Toggle symbols Outline" })
 
 -- Lazy git
 map("n", "<A-g>", "<cmd> LazyGitCurrentFile <CR>", { desc = "Toggle Lazy git" })

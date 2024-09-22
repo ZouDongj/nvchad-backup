@@ -180,6 +180,16 @@ return {
     end,
   },
 
+  {
+    "hedyhli/outline.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("outline").setup {
+        -- Your setup opts here (leave empty to use defaults)
+      }
+    end,
+  },
+
   -- custom config
   {
     "neovim/nvim-lspconfig",
