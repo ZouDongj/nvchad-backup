@@ -181,6 +181,91 @@ return {
   },
 
   {
+    "romgrk/barbar.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
+      "nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+    },
+    init = function()
+      vim.g.barbar_auto_setup = false
+    end,
+    opts = {
+      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+      animation = true,
+      highlight_visible = true,
+      icons = {
+        separator_at_end = false,
+        inactive = { separator = { left = "", right = "" } },
+        separator = { left = "", right = "" },
+        pinned = { button = "", filename = true },
+      },
+      insert_at_start = false,
+      -- Set the filetypes which barbar will offset itself for
+      sidebar_filetypes = {
+        -- Use the default values: {event = 'BufWinLeave', text = '', align = 'left'}
+        NvimTree = true,
+        -- Or, specify the text used for the offset:
+        undotree = {
+          text = "undotree",
+          align = "center", -- *optionally* specify an alignment (either 'left', 'center', or 'right')
+        },
+        -- Or, specify the event which the sidebar executes when leaving:
+        ["neo-tree"] = { event = "BufWipeout" },
+        -- Or, specify all three
+        Outline = { event = "BufWinLeave", text = "", align = "right" },
+      },
+      -- …etc.
+    },
+
+    config = function(_, opts)
+      require("barbar").setup(opts)
+      vim.cmd([[
+        highlight BufferTabpageFill       guibg=#232B3A
+        highlight BufferCurrent           guibg=NONE guifg=#A6E3A1
+        highlight BufferCurrentERROR      guibg=NONE guifg=#F38BA8
+        highlight BufferCurrentWARN       guibg=NONE guifg=#F9E2AF
+        highlight BufferCurrentHINT       guibg=NONE guifg=#A6E3A1
+        highlight BufferCurrentMod        guibg=NONE guifg=#A6E3A1
+
+        " barbar - inactive buffer
+        highlight BufferInactive          guibg=#232B3A
+        highlight BufferInactiveADDED     guibg=#232B3A
+        highlight BufferInactiveCHANGED   guibg=#232B3A
+        highlight BufferInactiveDELETED   guibg=#232B3A
+        highlight BufferInactiveERROR     guibg=#232B3A
+        highlight BufferInactiveHINT      guibg=#232B3A
+        highlight BufferInactiveIcon      guibg=#232B3A
+        highlight BufferInactiveIndex     guibg=#232B3A
+        highlight BufferInactiveINFO      guibg=#232B3A
+        highlight BufferInactiveMod       guibg=#232B3A
+        highlight BufferInactiveNumber    guibg=#232B3A
+        highlight BufferInactiveSign      guibg=#232B3A
+        highlight BufferInactiveSignRight guibg=#232B3A
+        highlight BufferInactiveTarget    guibg=#232B3A
+        highlight BufferInactiveWARN      guibg=#232B3A
+
+        highlight BufferVisible           guibg=#1C2433
+        highlight BufferVisibleADDED      guibg=#1C2433
+        highlight BufferVisibleCHANGED    guibg=#1C2433
+        highlight BufferVisibleDELETED    guibg=#1C2433
+        highlight BufferVisibleERROR      guibg=#1C2433
+        highlight BufferVisibleHINT       guibg=#1C2433
+        highlight BufferVisibleIcon       guibg=#1C2433
+        highlight BufferVisibleIndex      guibg=#1C2433
+        highlight BufferVisibleINFO       guibg=#1C2433
+        highlight BufferVisibleMod        guibg=#1C2433
+        highlight BufferVisibleNumber     guibg=#1C2433
+        highlight BufferVisibleSign       guibg=#1C2433
+        highlight BufferVisibleSignRight  guibg=#1C2433
+        highlight BufferVisibleTarget     guibg=#1C2433
+        highlight BufferVisibleWARN       guibg=#1C2433
+      ]])
+    end,
+    version = "^1.0.0", -- optional: only update when a new 1.x version is released
+  },
+
+  {
     "hedyhli/outline.nvim",
     event = "VeryLazy",
     config = function()
