@@ -42,3 +42,11 @@ map("n", "<leader>rl", "<cmd>lua require('persistence').load({ last = true })<CR
 
 -- hop
 map("n", "<leader>h", "<cmd> HopWord <CR>", {desc = "Hop word"})
+
+-- barbar
+map("n", "<tab>", "<cmd> BufferNext <CR>", { desc = "Go to next buffer"})
+map("n", "<S-tab>", "<cmd> BufferPrevious <CR>", { desc = "Go to previous buffer"} )
+map("n", "<leader>x", "<cmd> BufferClose <CR>", { desc = "Close current buffer"} )
+map("n", "<A-p>", "<cmd> BufferPin <CR>", { desc = "Pin current buffer" })
+map("n", "<A-j>", "<cmd> BufferPick <CR>", { desc = "Pick buffer" })
+map("n", "<A-d>", "<cmd> BufferPickDelete <CR>", { desc = "Pick buffer to delete" })
