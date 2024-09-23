@@ -5,15 +5,20 @@
 local M = {}
 
 M.ui = {
-	theme = "bearded-arc",
+  theme = "bearded-arc",
 
-	-- hl_override = {
-	-- 	Comment = { italic = true },
-	-- 	["@comment"] = { italic = true },
-	-- },
+  -- hl_override = {
+  --  Comment = { italic = true },
+  --  ["@comment"] = { italic = true },
+  -- },
+  tabufline = {
+    enabled = false,
+    lazyload = true,
+    overriden_modules = nil,
+  },
   nvdash = {
     load_on_startup = true,
-  }
+  },
 }
 
 return M
