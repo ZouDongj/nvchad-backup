@@ -3,7 +3,7 @@ return {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
     config = function()
-      require "configs.conform"
+      require("configs.conform")
     end,
   },
 
@@ -43,74 +43,47 @@ return {
   },
 
   {
-    "folke/noice.nvim",
-    lazy = true,
-    event = "user fileopened",
-    dependencies = { "rcarriga/nvim-notify", "MunifTanjim/nui.nvim" },
-    config = function()
-      require("noice").setup({
-        lsp = {
-          progress = {
-            enabled = false,
-          },
-        },
-        presets = {
-          bottom_search = false,        -- use a classic bottom cmdline for search
-          command_palette = true,       -- position the cmdline and popupmenu together
-          long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = true,        -- add a border to hover docs and signature help
-        },
-        messages = {
-          enabled = true,
-          view = "notify",
-          view_error = "notify",
-          view_warn = "notify",
-          view_history = "messages",
-          view_search = "virtualtext",
-        },
-        health = {
-          checker = false,
-        },
-      })
-    end,
-  },
-
-  {
     "JuanZoran/Trans.nvim",
-    build = function() require 'Trans'.install() end,
+    build = function()
+      require("Trans").install()
+    end,
     keys = {
       -- 可以换成其他你想映射的键
-      { 'mm', mode = { 'n', 'x' }, '<Cmd>Translate<CR>', desc = '󰊿 Translate' },
-      { 'mk', mode = { 'n', 'x' }, '<Cmd>TransPlay<CR>', desc = ' Auto Play' },
+      { "mm", mode = { "n", "x" }, "<Cmd>Translate<CR>", desc = "Trans 󰊿 Translate" },
+      { "mk", mode = { "n", "x" }, "<Cmd>TransPlay<CR>", desc = "Trans  Auto Play" },
       -- 目前这个功能的视窗还没有做好，可以在配置里将view.i改成hover
-      { 'mi', '<Cmd>TranslateInput<CR>', desc = '󰔮 Translate From Input' },
+      { "mi", "<Cmd>TranslateInput<CR>", desc = "Trans 󰔮 Translate From Input" },
     },
-    dependencies = { 'kkharji/sqlite.lua', },
+    dependencies = { "kkharji/sqlite.lua" },
     opts = {
       -- your configuration there
       frontend = {
         default = {
-          title = vim.fn.has 'nvim-0.9' == 1 and {
-            { '', 'TransTitleRound' },
-            { '󰊿 Trans', 'TransTitle' },
-            { '', 'TransTitleRound' },
+          title = vim.fn.has("nvim-0.9") == 1 and {
+            { "", "TransTitleRound" },
+            { "󰊿 Trans", "TransTitle" },
+            { "", "TransTitleRound" },
           } or nil,
         },
         ---@class TransFrontendOpts
         ---@field keymaps table<string, string>
         hover = {
+          ---@type integer Max Width of Hover Window
+          width = 45,
+          ---@type integer Max Height of Hover Window
+          height = 30,
+
           keymaps = {
-            pageup   = '[[',
-            pagedown = ']]',
-            pin      = '<leader>[',
-            close    = '<leader>]',
+            pageup = "[[",
+            pagedown = "]]",
+            pin = "<leader>[",
+            close = "<leader>]",
             -- play         = '_', -- Deprecated
           },
           icon = {
             -- or use emoji
-            star     = ' ', -- ⭐ | ✴ | ✳ | ✲ | ✱ | ✰ | ★ | ☆ | 🌟 | 🌠 | 🌙 | 🌛 | 🌜 | 🌟 | 🌠 | 🌌 | 🌙 |
-            notfound = ' ', --❔ | ❓ | ❗ | ❕|
+            star = " ", -- ⭐ | ✴ | ✳ | ✲ | ✱ | ✰ | ★ | ☆ | 🌟 | 🌠 | 🌙 | 🌛 | 🌜 | 🌟 | 🌠 | 🌌 | 🌙 |
+            notfound = "❔ ", --❔ | ❓ | ❗ | ❕|
           },
         },
       },
@@ -135,6 +108,42 @@ return {
   },
 
   {
+    "echasnovski/mini.animate",
+    recommended = true,
+    event = "VeryLazy",
+    opts = function()
+      -- don't use animate when scrolling with the mouse
+      local mouse_scrolled = false
+      for _, scroll in ipairs({ "Up", "Down" }) do
+        local key = "<ScrollWheel" .. scroll .. ">"
+        vim.keymap.set({ "", "i" }, key, function()
+          mouse_scrolled = true
+          return key
+        end, { expr = true })
+      end
+
+      local animate = require("mini.animate")
+      return {
+        resize = {
+          timing = animate.gen_timing.linear({ duration = 50, unit = "total" }),
+        },
+        scroll = {
+          timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
+          subscroll = animate.gen_subscroll.equal({
+            predicate = function(total_scroll)
+              if mouse_scrolled then
+                mouse_scrolled = false
+                return false
+              end
+              return total_scroll > 1
+            end,
+          }),
+        },
+      }
+    end,
+  },
+
+  {
     "nathom/filetype.nvim",
     lazy = true,
     event = "User FileOpened",
@@ -144,9 +153,9 @@ return {
           extensions = {
             h = "cpp",
           },
-        }
+        },
       })
-    end
+    end,
   },
 
   {
@@ -158,34 +167,25 @@ return {
   },
 
   {
-    "HiPhish/rainbow-delimiters.nvim",
-    -- Bracket pair rainbow colorize
-    event = "VeryLazy",
-  },
-
-  {
-    "kevinhwang91/nvim-ufo",
-    dependencies = {
-      "kevinhwang91/promise-async",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    -- event = "VeryLazy",
-
-    config = function()
-      require("ufo").setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return { "treesitter", "indent" }
-        end,
-      })
-    end,
-  },
-
-  {
     "romgrk/barbar.nvim",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
-      "nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+      {
+        "nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+        config = function()
+          require("nvim-web-devicons").setup({
+            override_by_filename = {
+              ["toml"] = {
+                icon = "󰬛",
+                color = "#753219",
+                cterm_color = "88",
+                name = "Toml",
+              },
+            },
+          })
+        end,
+      },
     },
     init = function()
       vim.g.barbar_auto_setup = false
@@ -194,6 +194,7 @@ return {
       -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
       animation = true,
       highlight_visible = true,
+      exclude_name = {'spectre'},
       icons = {
         separator_at_end = false,
         inactive = { separator = { left = "", right = "" } },
@@ -266,27 +267,222 @@ return {
   },
 
   {
-    "hedyhli/outline.nvim",
-    event = "VeryLazy",
+    "ldelossa/litee-calltree.nvim",
+    event = "LspAttach",
+    dependencies = {
+      {
+        "ldelossa/litee.nvim",
+        config = function()
+          require("litee.lib").setup({
+            panel = {
+              orientation = "left",
+              panel_size = 30,
+            },
+          })
+        end,
+      },
+    },
     config = function()
-      require("outline").setup {
-        -- Your setup opts here (leave empty to use defaults)
-      }
+      require("litee.calltree").setup({
+        -- hide_cursor = false,
+        resolve_symbols = false,
+        map_resize_keys = false,
+      })
     end,
   },
 
   {
-    "ojroques/nvim-osc52",
-    event = "VeryLazy",
-    config = function ()
-      require("osc52").setup()
+    "fei6409/log-highlight.nvim",
+    ft = "log",
+    config = function()
+      require("log-highlight").setup({})
     end,
   },
-  -- custom config
+
+  {
+    "kevinhwang91/nvim-ufo",
+    event = "BufRead",
+    dependencies = {
+      { "kevinhwang91/promise-async" },
+      {
+        "luukvbaal/statuscol.nvim",
+        config = function()
+          local builtin = require("statuscol.builtin")
+          require("statuscol").setup({
+            -- foldfunc = "builtin",
+            -- setopt = true,
+            relculright = true,
+            segments = {
+              { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+              { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+            },
+          })
+        end,
+      },
+    },
+    config = function()
+      -- Fold options
+      vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+      vim.o.foldcolumn = "1" -- '0' is not bad
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+
+      require("ufo").setup()
+    end,
+  },
+
+  {
+    "cappyzawa/trim.nvim",
+    event = "BufRead",
+    config = function()
+      require("trim").setup({
+        -- if you want to ignore markdown file.
+        -- you can specify filetypes.
+        ft_blocklist = {
+          "",
+          "aerial",
+          "alpha",
+          "checkhealth",
+          "cmp_menu",
+          "diff",
+          "lazy",
+          "lspinfo",
+          "man",
+          "markdown",
+          "mason",
+          "nvcheatsheet",
+          "nvdash",
+          "TelescopePrompt",
+          "TelescopeResults",
+          "toggleterm",
+          "Trouble",
+          "WhichKey",
+          "VoltWindow",
+          "noice",
+          "notify",
+        },
+
+        -- if you want to remove multiple blank lines
+        patterns = {
+          [[%s/\(\n\n\)\n\+/\1/]], -- replace multiple blank lines with a single line
+        },
+
+        -- if you want to disable trim on write by default
+        trim_on_write = false,
+
+        -- highlight trailing spaces
+        highlight = true,
+        highlight_bg = "#E62E4D",
+      })
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function()
+      require("nvim-treesitter.install").prefer_git = true
+    end,
+  },
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = function()
+      local conf = require("nvchad.configs.nvimtree")
+      conf.renderer.icons.glyphs.folder.default = "󰉋"
+      conf.view = {
+        adaptive_size = true,
+        side = "left",
+        width = 30,
+        preserve_window_proportions = true,
+      }
+      return conf
+    end,
+  },
+
+  {
+    "hedyhli/outline.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("outline").setup({
+        -- Your setup opts here (leave empty to use defaults)
+      })
+    end,
+  },
+
+  {
+    "dwrdx/mywords.nvim",
+    event = "VeryLazy",
+  },
+
+  {
+    "windwp/nvim-spectre",
+    lazy = true,
+    cmd = { "Spectre" },
+    config = function()
+      require("spectre").setup()
+    end,
+  },
+
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    event = "VeryLazy",
+    config = function ()
+      require("rainbow-delimiters.setup").setup({
+        highlight = {
+        'RainbowDelimiterYellow',
+        'RainbowDelimiterBlue',
+        'RainbowDelimiterOrange',
+        'RainbowDelimiterGreen',
+        'RainbowDelimiterViolet',
+        'RainbowDelimiterCyan',
+        'RainbowDelimiterRed',
+    },
+      })
+    end,
+  },
+
+  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      -- format & linting
+      {
+        "jose-elias-alvarez/null-ls.nvim",
+        config = function()
+          local b = require("null-ls").builtins
+          require("null-ls").setup({
+            sources = {
+              -- lua
+              b.formatting.stylua,
+
+              -- c/cpp
+              b.formatting.clang_format,
+
+              --xml
+              b.formatting.xmlformat,
+
+              -- python
+              b.formatting.pyink,
+
+              -- json
+              b.formatting.jq,
+            },
+
+            on_attach = function(client, bufnr)
+              -- 检查文件类型，禁用 null-ls 对 C 和 C++ 文件的支持
+              if vim.bo.filetype == "c" or vim.bo.filetype == "cpp" then
+                client.stop() -- 停止 LSP 客户端
+                return
+              end
+            end,
+          })
+        end,
+      },
+    },
     config = function()
-      require "configs.lspconfig"
+      require("configs.lspconfig")
     end,
   },
 }
