@@ -19,7 +19,7 @@ M.base46 = {
 
 M.ui = {
   statusline = {
-    theme = "minimal",
+    theme = "default",
     separator_style = "round",
   },
 
@@ -28,24 +28,30 @@ M.ui = {
     lazyload = true,
     overriden_modules = nil,
   },
+
+  cmp = {
+    lspkind_text = true,
+    style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
+    format_colors = {
+      tailwind = true,
+    },
+  },
 }
 
 M.nvdash = {
   load_on_startup = true,
   header = {
-       "                            ",
-       "     ▄▄         ▄ ▄▄▄▄▄▄▄   ",
-       "   ▄▀███▄     ▄██ █████▀    ",
-       "   ██▄▀███▄   ███           ",
-       "   ███  ▀███▄ ███           ",
-       "   ███    ▀██ ███           ",
-       "   ███      ▀ ███           ",
-       "   ▀██ █████▄▀█▀▄██████▄    ",
-       "     ▀ ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀   ",
-       "                            ",
-       "     Powered By Neovim    ",
-       "                            ",
-     },
+    "                                  ",
+    "  ███╗   ███╗██████╗    ███████╗  ",
+    "  ████╗ ████║██╔══██╗   ╚══███╔╝  ",
+    "  ██╔████╔██║██████╔╝     ███╔╝   ",
+    "  ██║╚██╔╝██║██╔══██╗    ███╔╝    ",
+    "  ██║ ╚═╝ ██║██║  ██║██╗███████╗  ",
+    "  ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚══════╝  ",
+    "                                  ",
+    "        󰖨  Be Your Own Sun        ",
+    "                                  ",
+  },
 }
 
 return M
