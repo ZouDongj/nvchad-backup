@@ -6,7 +6,7 @@ return {
       require("configs.conform")
     end,
   },
-
+  -- { import = "nvchad.blink.lazyspec" },
   {
     "kdheepak/lazygit.nvim",
     cmd = { "LazyGitCurrentFile", "LazyGitFilterCurrentFile" },
@@ -39,6 +39,39 @@ return {
       })
 
       vim.notify = notify
+    end,
+  },
+
+  {
+    "folke/noice.nvim",
+    lazy = false,
+    dependencies = { "rcarriga/nvim-notify", "MunifTanjim/nui.nvim" },
+    config = function()
+      require("noice").setup({
+        lsp = {
+          progress = {
+            enabled = false,
+          },
+        },
+        presets = {
+          bottom_search = false, -- use a classic bottom cmdline for search
+          command_palette = false, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = true, -- add a border to hover docs and signature help
+        },
+        messages = {
+          enabled = true,
+          view = "notify",
+          view_error = "notify",
+          view_warn = "notify",
+          view_history = "messages",
+          view_search = "virtualtext",
+        },
+        health = {
+          checker = false,
+        },
+      })
     end,
   },
 
@@ -168,7 +201,7 @@ return {
 
   {
     "romgrk/barbar.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    lazy = false,
     dependencies = {
       "lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
       {
@@ -194,12 +227,20 @@ return {
       -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
       animation = true,
       highlight_visible = true,
-      exclude_name = {'spectre'},
+      exclude_name = { "spectre" },
       icons = {
         separator_at_end = false,
         inactive = { separator = { left = "", right = "" } },
-        separator = { left = "", right = "" },
+        separator = { left = "|", right = "" },
         pinned = { button = "", filename = true },
+        filetype = {
+          -- Sets the icon's highlight group.
+          -- If false, will use nvim-web-devicons colors
+          custom_colors = true,
+
+          -- Requires `nvim-web-devicons` if `true`
+          enabled = true,
+        },
       },
       insert_at_start = false,
       -- Set the filetypes which barbar will offset itself for
@@ -218,50 +259,51 @@ return {
       },
       -- …etc.
     },
-
     config = function(_, opts)
       require("barbar").setup(opts)
-      vim.cmd([[
-        highlight BufferTabpageFill       guibg=#232B3A
-        highlight BufferCurrent           guibg=NONE guifg=#A6E3A1
-        highlight BufferCurrentERROR      guibg=NONE guifg=#F38BA8
-        highlight BufferCurrentWARN       guibg=NONE guifg=#F9E2AF
-        highlight BufferCurrentHINT       guibg=NONE guifg=#A6E3A1
-        highlight BufferCurrentMod        guibg=NONE guifg=#A6E3A1
+      local colors = dofile(vim.g.base46_cache .. "colors")
+      vim.api.nvim_set_hl(0, "BufferTabpageFill", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferCurrent", { bg = colors.black, fg = colors.vibrant_green })
+      vim.api.nvim_set_hl(0, "BufferCurrentERROR", { bg = colors.black, fg = colors.red })
+      vim.api.nvim_set_hl(0, "BufferCurrentWARN", { bg = colors.black, fg = colors.sun })
+      vim.api.nvim_set_hl(0, "BufferCurrentHINT", { bg = colors.black, fg = colors.vibrant_green })
+      vim.api.nvim_set_hl(0, "BufferCurrentMod", { bg = colors.black, fg = colors.vibrant_green })
+      vim.api.nvim_set_hl(0, "BufferCurrentSign", { bg = colors.black, fg = colors.blue })
+      vim.api.nvim_set_hl(0, "BufferCurrentIcon", { bg = colors.black, fg = colors.blue })
+      vim.api.nvim_set_hl(0, "BufferCurrentTarget", { bg = colors.black, fg = colors.red })
 
-        " barbar - inactive buffer
-        highlight BufferInactive          guibg=#232B3A
-        highlight BufferInactiveADDED     guibg=#232B3A
-        highlight BufferInactiveCHANGED   guibg=#232B3A
-        highlight BufferInactiveDELETED   guibg=#232B3A
-        highlight BufferInactiveERROR     guibg=#232B3A
-        highlight BufferInactiveHINT      guibg=#232B3A
-        highlight BufferInactiveIcon      guibg=#232B3A
-        highlight BufferInactiveIndex     guibg=#232B3A
-        highlight BufferInactiveINFO      guibg=#232B3A
-        highlight BufferInactiveMod       guibg=#232B3A
-        highlight BufferInactiveNumber    guibg=#232B3A
-        highlight BufferInactiveSign      guibg=#232B3A
-        highlight BufferInactiveSignRight guibg=#232B3A
-        highlight BufferInactiveTarget    guibg=#232B3A
-        highlight BufferInactiveWARN      guibg=#232B3A
+      -- barbar - inactive buffer
+      vim.api.nvim_set_hl(0, "BufferInactive", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveADDED", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveCHANGED", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveDELETED", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveERROR", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveHINT", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveIcon", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveIndex", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveINFO", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveMod", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveNumber", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveSign", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveSignRight", { bg = colors.one_bg })
+      vim.api.nvim_set_hl(0, "BufferInactiveTarget", { bg = colors.one_bg, fg = colors.blue })
+      vim.api.nvim_set_hl(0, "BufferInactiveWARN", { bg = colors.one_bg })
 
-        highlight BufferVisible           guibg=#1C2433
-        highlight BufferVisibleADDED      guibg=#1C2433
-        highlight BufferVisibleCHANGED    guibg=#1C2433
-        highlight BufferVisibleDELETED    guibg=#1C2433
-        highlight BufferVisibleERROR      guibg=#1C2433
-        highlight BufferVisibleHINT       guibg=#1C2433
-        highlight BufferVisibleIcon       guibg=#1C2433
-        highlight BufferVisibleIndex      guibg=#1C2433
-        highlight BufferVisibleINFO       guibg=#1C2433
-        highlight BufferVisibleMod        guibg=#1C2433
-        highlight BufferVisibleNumber     guibg=#1C2433
-        highlight BufferVisibleSign       guibg=#1C2433
-        highlight BufferVisibleSignRight  guibg=#1C2433
-        highlight BufferVisibleTarget     guibg=#1C2433
-        highlight BufferVisibleWARN       guibg=#1C2433
-      ]])
+      vim.api.nvim_set_hl(0, "BufferVisible", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleADDED", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleCHANGED", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleDELETED", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleERROR", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleHINT", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleIcon", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleIndex", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleINFO", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleMod", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleNumber", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleSign", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleSignRight", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleTarget", { bg = colors.black })
+      vim.api.nvim_set_hl(0, "BufferVisibleWARN", { bg = colors.black })
     end,
     version = "^1.0.0", -- optional: only update when a new 1.x version is released
   },
@@ -271,12 +313,12 @@ return {
     event = "LspAttach",
     dependencies = {
       {
-        "ldelossa/litee.nvim",
+        "ZouDongj/litee.nvim",
         config = function()
           require("litee.lib").setup({
             panel = {
               orientation = "left",
-              panel_size = 30,
+              panel_size = 40,
             },
           })
         end,
@@ -285,7 +327,9 @@ return {
     config = function()
       require("litee.calltree").setup({
         -- hide_cursor = false,
-        resolve_symbols = false,
+        icon_set_custom = { Struct = "s-call" }, -- Provide icons you want.
+        icon_set = "codicons",
+        resolve_symbols = true,
         map_resize_keys = false,
       })
     end,
@@ -387,6 +431,11 @@ return {
   },
 
   {
+    "nvim-telescope/telescope.nvim",
+    branch = "master"
+  },
+
+  {
     "nvim-tree/nvim-tree.lua",
     opts = function()
       local conf = require("nvchad.configs.nvimtree")
@@ -428,18 +477,57 @@ return {
   {
     "HiPhish/rainbow-delimiters.nvim",
     event = "VeryLazy",
-    config = function ()
+    config = function()
       require("rainbow-delimiters.setup").setup({
         highlight = {
-        'RainbowDelimiterYellow',
-        'RainbowDelimiterBlue',
-        'RainbowDelimiterOrange',
-        'RainbowDelimiterGreen',
-        'RainbowDelimiterViolet',
-        'RainbowDelimiterCyan',
-        'RainbowDelimiterRed',
-    },
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+          "RainbowDelimiterRed",
+        },
       })
+    end,
+  },
+
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    event = "LspAttach",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
+    },
+  },
+
+  {
+    "crusj/bookmarks.nvim",
+    event = "VeryLazy",
+    branch = "main",
+    dependencies = { "nvim-web-devicons" },
+    config = function()
+      require("bookmarks").setup({
+        keymap = {
+          add = "\\n", -- Add bookmarks(global keymap)
+          toggle = "\\l", -- Toggle bookmarks(global keymap)
+        },
+        virt_pattern = { "*.go", "*.lua", "*.sh", "*.php", "*.rs", "*.c", "*.py" },
+      })
+      require("telescope").load_extension("bookmarks")
+    end,
+  },
+
+  {
+    "ojroques/nvim-osc52",
+    event = "VeryLazy",
+    config = function()
+      require("osc52").setup()
     end,
   },
 
@@ -449,7 +537,7 @@ return {
     dependencies = {
       -- format & linting
       {
-        "jose-elias-alvarez/null-ls.nvim",
+        "nvimtools/none-ls.nvim",
         config = function()
           local b = require("null-ls").builtins
           require("null-ls").setup({
@@ -457,17 +545,14 @@ return {
               -- lua
               b.formatting.stylua,
 
-              -- c/cpp
-              b.formatting.clang_format,
-
               --xml
-              b.formatting.xmlformat,
+              b.formatting.xmllint,
 
               -- python
               b.formatting.pyink,
 
               -- json
-              b.formatting.jq,
+              b.formatting.prettier,
             },
 
             on_attach = function(client, bufnr)
