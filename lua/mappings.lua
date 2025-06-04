@@ -9,8 +9,8 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 -- save
 map("n", "q", "<cmd> q <CR>", { desc = "Buffer Quit" })
 map("n", "qq", "<cmd> q! <CR>", { desc = "Buffer Force quit" })
-map("n", "w", "<cmd> w <CR>", { desc = "Buffer Save file" })
-map("n", "ww", "<cmd> wq <CR>", { desc = "Buffer Save file" })
+map("n", "w", "<cmd> update <CR>", { desc = "Buffer Save file" })
+map("n", "ww", "<cmd> x <CR>", { desc = "Buffer Save file" })
 
 -- edit
 map("n", "dd", '"_dd', { desc = "Edit delete text without copy" })
@@ -29,13 +29,9 @@ map(
 map(
   "n",
   "<leader>sp",
-  '<cmd>lua require("spectre").open_file_search()<CR>',
+  '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
   { desc = "nvim-spectre Search on current file" }
 )
-
--- move
-map("n", "<C-u>", "10k", { desc = "Edit Move up by 10 lines" })
-map("n", "<C-d>", "10j", { desc = "Edit Move down by 10 lines" })
 
 -- split windows
 map("n", "sv", ":vsp<CR>", { desc = "WindowsManage Split vertical" })
@@ -122,6 +118,10 @@ end, { expr = true }, { desc = "GitSigns Jump to prev hunk" })
 map("n", "<leader>gb", function()
   package.loaded.gitsigns.blame_line()
 end, { desc = "GitSigns Blame line" })
+
+map("n", "<leader>gf", function()
+  package.loaded.gitsigns.blame_line({ full = true })
+end, { desc = "GitSigns Blame line Fully" })
 
 map("n", "<leader>tb", function()
   package.loaded.gitsigns.toggle_current_line_blame()
